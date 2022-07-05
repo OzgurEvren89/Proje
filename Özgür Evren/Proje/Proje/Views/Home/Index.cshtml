@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form action="@(Url.Action("OpenExcel","Home"))" method="post" id="myForm">
+    <div class="col-12">
+        <div class="row">
+            <br />
+            <div style="border: 2px solid #b3bce2; border-radius: 12px; padding: 5px; margin-left: 500px;width:300px">
+
+                <div class="col-12" style="margin-left:20px">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="fv-row mb-5">
+                                <label class="required fs-6 fw-bold mb-2">İsim</label>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="d-flex flex-column mb-5 fv-row">
+                                <input type="text" class="form-control" id="nameInput" placeholder="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12" style="margin-left:20px">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="fv-row mb-5">
+                                <label class="required fs-6 fw-bold mb-2">Soyisim</label>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="d-flex flex-column mb-5 fv-row">
+                                <input type="text" class="form-control" id="surnameInput" placeholder="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12" style="margin-left:20px">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="fv-row mb-5">
+                                <label class="required fs-6 fw-bold mb-2">Adres</label>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="d-flex flex-column mb-5 fv-row">
+                                <input type="text" class="form-control" id="addressInput" placeholder="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12" style="margin-left:20px">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="fv-row mb-5">
+                                <label class="required fs-6 fw-bold mb-2">Mail</label>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="d-flex flex-column mb-5 fv-row">
+                                <input type="text" class="form-control" id="mailInput" placeholder="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <button type="button" onclick="save()" class="btn btn-primary">Kayıt Ekle</button>
+
+                <button type="button" onclick="clean()" class="btn btn-warning">Temizle</button>
+
+                <button type="button" onclick="openExcel()" class="btn btn-success">Excel'e Aktar</button>
+
+            </div>
+            <br />
+            <div class="text-center col-5" style="border: 2px solid #b3bce2;border-radius: 12px;padding: 5px;">
+                <input type="hidden" id="item" />
+                <input type="hidden" id="excelitem" />
+
+                <table class="table table-striped" id="report">
+                    <thead>
+                        <tr>
+                            <th>İsim</th>
+                            <th>Soyisim</th>
+                            <th>Adres</th>
+                            <th>Mail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    //$('#report').DataTable();
+
+    function save() {
+        var item = "";
+        item += document.getElementById("item").value;
+        item += "<tr><td>" + document.getElementById("nameInput").value + "</td><td>" + document.getElementById("surnameInput").value + "</td><td>" + document.getElementById("addressInput").value + "</td><td>" + document.getElementById("mailInput").value + "</td></tr>";
+        $('#report tbody').html(item);
+        document.getElementById("item").value = item;
+
+        var excelitem = "";
+        excelitem += document.getElementById("excelitem").value;
+        excelitem += document.getElementById("nameInput").value + "," + document.getElementById("surnameInput").value + "," + document.getElementById("addressInput").value + "," + document.getElementById("mailInput").value + ";";
+        document.getElementById("excelitem").value = excelitem;
+
+    }
+
+
+    function openExcel() {
+        var excelitem = document.getElementById("excelitem").value;
+        const myArray = excelitem.split(";");
+        location.href = '@Url.Action("OpenExcel", "Home")?data=' + excelitem;
+
+        //$("#myForm").submit();
+    }
+
+    function clean() {
+        document.getElementById("nameInput").value = "";
+        document.getElementById("surnameInput").value = "";
+        document.getElementById("addressInput").value = "";
+        document.getElementById("mailInput").value = "";
+
+    }
+</script>
+
+
+
